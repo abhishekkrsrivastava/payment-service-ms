@@ -21,7 +21,7 @@ services:
     depends_on:
       - mysql-db
     ports:
-      - '9197:9197'
+      - '9196:9196'
     volumes:
       - /data/payment-service-ms
     container_name: payment-service-ms
