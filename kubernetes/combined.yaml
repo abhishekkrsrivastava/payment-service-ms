@@ -1,0 +1,52 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: payment-service-ms-namespace
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: payment-service-ms-deployment
+  namespace: payment-service-ms-namespace
+spec:
+  selector:
+    matchLabels:
+      app: payment-deployment
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: payment-deployment
+    spec:
+      containers:
+        - name: payment-app-container
+          image: abhishekvanaras/payment-service-ms:2.2
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 9196
+          env:
+            - name: SPRING_DATASOURCE_URL
+              value: jdbc:mysql://mysql.default.svc.cluster.local:3306/ms-service?allowPublicKeyRetrieval=true&useSSL=false
+            - name: DB_NAME
+              value: ms-service
+            - name: SPRING_DATASOURCE_USERNAME
+              value: root
+            - name: SPRING_DATASOURCE_PASSWORD
+              value: test1234
+
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: payment-service-ms-service
+  namespace: payment-service-ms-namespace
+spec:
+  selector:
+    app: payment-deployment
+  ports:
+    - protocol: "TCP"
+      port: 9196
+      targetPort: 9196
+  type: NodePort

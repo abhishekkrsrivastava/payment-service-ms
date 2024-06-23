@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: payment-service-ms-service
+  namespace: payment-service-ms-namespace
+spec:
+  selector:
+    app: payment-deployment
+  ports:
+    - protocol: "TCP"
+      port: 9196
+      targetPort: 9196
+  type: NodePort

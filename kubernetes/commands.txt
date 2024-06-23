@@ -1,0 +1,14 @@
+
+
+
+To run the combined file:
+
+kubectl apply -f combined.yaml
+
+
+1) kubectl apply -f namespace.yaml
+2) kubectl apply -f deployment.yaml
+3) kubectl apply -f service.yaml
+4) kubectl get svc -n namespacename
+5) minikube service servicename --url -n namespace
+6) kubectl delete svc servicename -n namespace
